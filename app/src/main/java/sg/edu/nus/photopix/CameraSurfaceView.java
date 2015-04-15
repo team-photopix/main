@@ -10,7 +10,9 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.SurfaceTexture;
 import android.graphics.YuvImage;
+import android.graphics.drawable.BitmapDrawable;
 import android.hardware.Camera;
+import android.os.Environment;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
@@ -18,13 +20,20 @@ import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.TextureView;
+import android.view.View;
 import android.widget.FrameLayout;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 
-public class CameraSurfaceView extends SurfaceView implements Camera.PreviewCallback, SurfaceHolder.Callback {
+public class CameraSurfaceView extends SurfaceView implements Camera.PreviewCallback, SurfaceHolder.Callback, Camera.PictureCallback {
 
     private SurfaceTexture dummyTexture = new SurfaceTexture(1);
     private Camera camera;
@@ -35,43 +44,83 @@ public class CameraSurfaceView extends SurfaceView implements Camera.PreviewCall
     private SurfaceHolder holder;
 
     private boolean isPreviewRunning = false;
+    private boolean afterImageCapture = false;
 
     public CameraSurfaceView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         holder = this.getHolder();
         holder.addCallback(this);
+        this.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (afterImageCapture) {
+                    afterImageCapture = false;
+                    startPreview();
+                } else if (!isPreviewRunning) {
+                    startPreview();
+                } else {
+                    takePicture(CameraSurfaceView.this);
+                }
+            }
+        });
     }
 
     public void takePicture(Camera.PictureCallback callback) {
-        camera.takePicture(null, callback, null);
+        camera.takePicture(null, callback, callback);
+        afterImageCapture = true;
     }
 
-    /*@Override
+    @Override
     public void onPictureTaken(byte[] data, Camera camera) {
-
-    }*/
-
-    private void startPreview() {
-        if (isPreviewRunning) {
-            stopPreview();
+        if (data == null) {
+            return;
         }
+        Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length, null);
+        stopPreview();
+        drawBitmap(bitmap);
 
-        camera = Camera.open();
-        isPreviewRunning = true;
-        Camera.Size size = camera.getParameters().getPreviewSize();;
-        previewWidth = size.width;
-        previewHeight = size.height;
+        String file_path = Environment.getExternalStorageDirectory().getAbsolutePath() +
+                "/Photopix";
+        File dir = new File(file_path);
+        if(!dir.exists())
+            dir.mkdirs();
+        File file = new File(dir, "photopix " + DateFormat.getDateTimeInstance().format(new Date()) + ".jpg");
         try {
-            camera.setPreviewTexture(dummyTexture);
-            //camera.setPreviewDisplay(holder);
-        } catch (IOException e) {
+            FileOutputStream fOut = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 85, fOut);
+            fOut.flush();
+            fOut.close();
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
-        camera.setPreviewCallback(this);
 
-        camera.startPreview();
+    }
+
+    private void startPreview() {
+        synchronized (this) {
+            if (isPreviewRunning) {
+                return;
+            }
+            isPreviewRunning = true;
+            if (camera == null) {
+                camera = Camera.open();
+            }
+            Camera.Size size = camera.getParameters().getPreviewSize();
+            ;
+            previewWidth = size.width;
+            previewHeight = size.height;
+            try {
+                camera.setPreviewTexture(dummyTexture);
+                //camera.setPreviewDisplay(holder);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            camera.setPreviewCallback(this);
+            camera.startPreview();
+        }
     }
 
     private  void stopPreview() {
@@ -80,7 +129,8 @@ public class CameraSurfaceView extends SurfaceView implements Camera.PreviewCall
                 if (camera != null) {
                     camera.stopPreview();
                     isPreviewRunning  = false;
-                    camera.release();
+                    //camera.release();
+                    //camera = null;
                 }
             } catch (Exception e) {
                 Log.e("Camera", e.getMessage());
@@ -88,28 +138,51 @@ public class CameraSurfaceView extends SurfaceView implements Camera.PreviewCall
         }
     }
 
+    private void destroyCamera() {
+        stopPreview();
+        camera.release();
+        camera = null;
+    }
+
     @Override
     public void onPreviewFrame(byte[] data, Camera camera) {
 //        decodeYUV420SP(rgb, data, previewWidth, previewHeight);
 //        bitmap = Bitmap.createBitmap(rgb, previewWidth, previewHeight, Bitmap.Config.ARGB_8888);
+        bitmap = bytesToBitmap(data);
+        drawBitmap(bitmap);
+    }
 
-        ByteArrayOutputStream os = new ByteArrayOutputStream(data.length);
-        YuvImage image = new YuvImage(data, ImageFormat.NV21, previewWidth, previewHeight, null);
-        Rect dest = new Rect(0, 0, previewWidth, previewHeight);
-        image.compressToJpeg(dest, 100, os);
-        byte bytes[] = os.toByteArray();
-
-        bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+    private void drawBitmap(Bitmap bitmap) {
+        double ratio = bitmap.getWidth()/getWidth();
+        if (bitmap.getWidth()/getWidth() < bitmap.getHeight()/getHeight()) {
+            ratio = bitmap.getHeight()/getHeight();
+        }
+        int newWidth = (int)(bitmap.getWidth()/ratio);
+        int newHeight = (int)(bitmap.getHeight()/ratio);
+        int x = (getWidth() - newWidth) / 2;
+        int y = (getHeight() - newHeight) / 2;
+        Rect dest = new Rect(x, y, x + newWidth, y + newHeight);
 
         Canvas canvas = holder.lockCanvas();
 
         Paint paint = new Paint();
         paint.setFilterBitmap(true);
-
+        canvas.drawColor(Color.BLACK);
         canvas.drawBitmap(bitmap, null, dest, paint);
 
         //this.draw(canvas);
         holder.unlockCanvasAndPost(canvas);
+    }
+
+    private Bitmap bytesToBitmap(byte[] data) {
+        ByteArrayOutputStream os = new ByteArrayOutputStream(data.length);
+        YuvImage image = new YuvImage(data, ImageFormat.NV21, previewWidth, previewHeight, null);
+        Rect dest = new Rect(0, 0, previewWidth, previewHeight);
+        image.compressToJpeg(dest, 20, os);
+        byte bytes[] = os.toByteArray();
+
+        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        return bitmap;
     }
 
     @Override
@@ -124,7 +197,7 @@ public class CameraSurfaceView extends SurfaceView implements Camera.PreviewCall
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-        stopPreview();
+        destroyCamera();
     }
 
     /*
