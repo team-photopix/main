@@ -337,12 +337,8 @@ public class ActivityCamera extends Activity implements OnSeekBarChangeListener,
         addFilter("Exposure",FilterType.EXPOSURE);
         addFilter("Shadow",FilterType.HIGHLIGHT_SHADOW);
         addFilter("Monochrome",FilterType.MONOCHROME);
-        addFilter("Opacity",FilterType.OPACITY);
-        addFilter("RGB",FilterType.RGB);
         addFilter("WB",FilterType.WHITE_BALANCE);
         addFilter("Vignette",FilterType.VIGNETTE);
-
-        addFilter("Gaussian",FilterType.GAUSSIAN_BLUR);
         addFilter("Crosshatch",FilterType.CROSSHATCH);
     }};
 
