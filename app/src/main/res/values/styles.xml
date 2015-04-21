@@ -21,7 +21,7 @@
     <style name="myFilterView">
         <item name="android:padding">3dp</item>
         <item name="android:background">@drawable/image_border</item>
-        <item name="android:scaleType">centerInside</item>
+        <item name="android:scaleType">fitXY</item>
 
     </style>
     <style name="myActionBarView">

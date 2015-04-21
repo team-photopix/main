@@ -28,7 +28,7 @@ public class MainActivity extends ActionBarActivity {
         cameraBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, InCameraActivity.class);
+                Intent i = new Intent(getApplicationContext(), InCameraActivity.class);
                 startActivity(i);
             }
         });
@@ -36,7 +36,7 @@ public class MainActivity extends ActionBarActivity {
         editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, EditActivity.class);
+                Intent i = new Intent(getApplicationContext(), EditActivity.class);
                 startActivity(i);
             }
         });
@@ -44,7 +44,7 @@ public class MainActivity extends ActionBarActivity {
         collageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, MultiPickActivity.class);
+                Intent i = new Intent(getApplicationContext(), MultiPickActivity.class);
                 startActivity(i);
             }
         });

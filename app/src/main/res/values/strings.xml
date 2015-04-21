@@ -22,16 +22,16 @@
     <string name="edit4">Crop</string>
     <string name="edit5">Frame</string>
 
-    <string name="effect1">Original</string>
-    <string name="effect2">Sepia</string>
-    <string name="effect3">Gray</string>
-    <string name="effect4">Chrome</string>
-    <string name="effect5">Sketch</string>
-    <string name="effect6">Sharpen</string>
-    <string name="effect7">Blur</string>
-    <string name="effect8">Art</string>
-    <string name="effect9">Edge</string>
-    <string name="effect10">Poster</string>
+    <string name="effect1">Normal</string>
+    <string name="effect2">Amaro</string>
+    <string name="effect3">Brannan</string>
+    <string name="effect4">Earlybird</string>
+    <string name="effect5">Inkwell</string>
+    <string name="effect6">Retro</string>
+    <string name="effect7">Sierra</string>
+    <string name="effect8">Toaster</string>
+    <string name="effect9">Walden</string>
+    <string name="effect10">Xproll</string>
 
     <string name="adjust1">Brightness</string>
     <string name="adjust2">Contrast</string>

@@ -32,7 +32,6 @@ public class FreeStyleActivity extends Activity {
     private HorizontalScrollView hsv;
     private ImageView imageView;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

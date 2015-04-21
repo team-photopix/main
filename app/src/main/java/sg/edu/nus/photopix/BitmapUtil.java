@@ -52,7 +52,7 @@ public class BitmapUtil {
 
     public static Bitmap getRoundedCornerBitmap(Bitmap bitmap, int pixels) {
         Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap
-                .getHeight(), Bitmap.Config.ARGB_8888);
+                .getHeight(), Bitmap.Config.RGB_565);
         Canvas canvas = new Canvas(output);
 
         final int color = 0xff424242;

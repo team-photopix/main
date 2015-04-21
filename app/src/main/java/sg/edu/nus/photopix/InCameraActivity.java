@@ -92,6 +92,7 @@ public class InCameraActivity extends ActionBarActivity {
                     showPhoto(photoUri);
                 } else if (resultCode == RESULT_CANCELED) {
                     Toast.makeText(this, "Cancelled", Toast.LENGTH_SHORT).show();
+                    finish();
                 } else {
                     Toast.makeText(this, "Callout for image capture failed!",
                             Toast.LENGTH_LONG).show();
@@ -115,6 +116,12 @@ public class InCameraActivity extends ActionBarActivity {
     public void onResume() {
         super.onResume();
         initImageLoader();
+    }
+
+    @Override
+    public void onDestroy() {
+        image.setImageBitmap(null);
+        super.onDestroy();
     }
 
     @Override

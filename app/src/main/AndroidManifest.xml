@@ -15,6 +15,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".MainActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,28 +24,29 @@
             </intent-filter>
         </activity>
         <activity android:name=".InCameraActivity"
-            android:screenOrientation="portrait"
+            android:launchMode="singleTask"
             android:parentActivityName=".MainActivity"/>
 
         <activity
             android:name=".EditActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:parentActivityName=".MainActivity" />
 
-        <activity android:name=".AfterSaveActivity"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".EditActivity"/>
         <activity
             android:name=".MultiPickActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".FreeStyleActivity"
+            android:launchMode="singleTask"
             android:parentActivityName=".MultiPickActivity">
         </activity>
 
         <activity
             android:name=".DisplayActivity"
+            android:launchMode="singleTask"
             android:parentActivityName=".FreeStyleActivity">
         </activity>
 

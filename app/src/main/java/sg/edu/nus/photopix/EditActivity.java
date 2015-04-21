@@ -142,9 +142,14 @@ public class EditActivity extends ActionBarActivity implements SensorEventListen
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
+            //change this 3 lines with below 2 lines
             realPath = bundle.getString("LOCATION");
             uri = Uri.fromFile(new File(realPath));
             comeFromCamera = true;
+
+            //for implemented camera
+            //uri = bundle.getParcelable("URI");
+            //comeFromCamera = true;
         }
 
         actionBar = getSupportActionBar();
@@ -167,7 +172,7 @@ public class EditActivity extends ActionBarActivity implements SensorEventListen
         mHandler = new Handler();
 
         gpuImage = new GPUImage(this);
-        filterUtil = new FilterUtil();
+        filterUtil = new FilterUtil(getApplicationContext());
 
         flip = (ViewFlipper)findViewById(R.id.flip);
         flip.setInAnimation(this, android.R.anim.slide_in_left);
@@ -402,8 +407,8 @@ public class EditActivity extends ActionBarActivity implements SensorEventListen
         saveBtn = (Button)findViewById(R.id.save_btn);
         cancelBtn = (Button)findViewById(R.id.cancel_btn);
         viewSwitcher = (ViewSwitcher)findViewById(R.id.view_switcher);
+        cancelBtn.setVisibility(View.GONE);
 
-        cancelBtn.setText("Repick");
 
         helper = new ColorBarHelper(new ColorBarView[]{hue, saturation, value})
                 .setOnColorChangeListener(colorChangeListener).setRGBColor(0xffabcdef);
@@ -426,7 +431,10 @@ public class EditActivity extends ActionBarActivity implements SensorEventListen
             initImageLoader();
 
         if (comeFromCamera) {
+            //change this line with below one
             handleImage(realPath);
+
+            //handleImage(uri);
         }
         else {
             Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
@@ -445,7 +453,7 @@ public class EditActivity extends ActionBarActivity implements SensorEventListen
             borderPaint.setStyle(Paint.Style.STROKE);
             borderPaint.setColor(hsvColor);
             borderPaint.setStrokeWidth(10);
-            originBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+            originBitmap = bitmap.copy(Bitmap.Config.RGB_565, true);
             canvas = new Canvas(originBitmap);
             canvas.drawBitmap(originBitmap, new Matrix(), null);
             canvas.drawRect(4, 4, bitmap.getWidth() - 4, bitmap.getHeight() - 4, borderPaint);
@@ -467,8 +475,7 @@ public class EditActivity extends ActionBarActivity implements SensorEventListen
                 finish();
                 break;
             case R.id.edit_btn:
-                cancelBtn.setVisibility(View.VISIBLE);
-                cancelBtn.setText("Repick");
+                cancelBtn.setVisibility(View.GONE);
                 saveBtn.setText("Save");
                 if (filter > 1) {
                     bitmap = applyFilter(bitmap, filterUtil.getMyFilter(filter - 2));
@@ -490,18 +497,15 @@ public class EditActivity extends ActionBarActivity implements SensorEventListen
                         bitmap = applyFilter(bitmap, filterUtil.getMyFilter(filter - 2));
                         filter = 1;
                     }
+                    if (prevView != null) {
+                        linearLayout = (LinearLayout) prevView.getParent();
+                        ((TextView) (linearLayout.getChildAt(1))).setTextColor(Color.WHITE);
+                        prevView = null;
+                    }
                     saveImage(bitmap);
-                    Intent i = new Intent(this, AfterSaveActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelable("URI", uri);
-                    i.putExtras(bundle);
-                    i.putExtra("finisher", new ResultReceiver(null){
-                        @Override
-                        protected void onReceiveResult(int resultCode, Bundle resultData) {
-                            finish();
-                        }
-                    });
-                    startActivityForResult(i, 10);
+                    viewSwitcher.setDisplayedChild(0);
+                    flip.setDisplayedChild(0);
+                    cancelBtn.setVisibility(View.GONE);
                 }
                 else if (saveBtn.getText().equals(("Crop"))) {
                     if (prevView != null) {
@@ -511,6 +515,7 @@ public class EditActivity extends ActionBarActivity implements SensorEventListen
                     }
                     bitmap = cropImageView.getCroppedImage();
                     originBitmap = bitmap;
+                    cropImageView.setImageBitmap(null);
                     cropImageView.setVisibility(View.GONE);
                     mImageView.setVisibility(View.VISIBLE);
                     mImageView.setImageBitmap(bitmap);
@@ -528,21 +533,13 @@ public class EditActivity extends ActionBarActivity implements SensorEventListen
                     ((TextView) (linearLayout.getChildAt(1))).setTextColor(Color.WHITE);
                     prevView = null;
                 }
-                if (cancelBtn.getText().equals("Repick")) {
-                    //bitmap = null;
-                    //originBitmap = null;
-                    Intent i = new Intent(this, EditActivity.class);
-                    startActivity(i);
-                    finish();
-                }
-                else {
-                    saveBtn.setText("Save");
-                    bitmap = originBitmap;
-                    cropImageView.setVisibility(View.GONE);
-                    mImageView.setVisibility(View.VISIBLE);
-                    mImageView.setImageBitmap(originBitmap);
-                    cropInProcess = false;
-                }
+                saveBtn.setText("Save");
+                bitmap = originBitmap;
+                cropImageView.setImageBitmap(null);
+                cropImageView.setVisibility(View.GONE);
+                mImageView.setVisibility(View.VISIBLE);
+                mImageView.setImageBitmap(originBitmap);
+                cropInProcess = false;
 
                 break;
             case R.id.undo_all_btn:
@@ -630,7 +627,7 @@ public class EditActivity extends ActionBarActivity implements SensorEventListen
                 borderPaint.setStyle(Paint.Style.STROKE);
                 borderPaint.setColor(hsvColor);
                 borderPaint.setStrokeWidth(10);
-                originBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+                originBitmap = bitmap.copy(Bitmap.Config.RGB_565, true);
                 canvas = new Canvas(originBitmap);
                 canvas.drawBitmap(originBitmap, new Matrix(), null);
                 canvas.drawRect(4, 4, bitmap.getWidth() - 4, bitmap.getHeight() - 4, borderPaint);
@@ -1031,10 +1028,10 @@ public class EditActivity extends ActionBarActivity implements SensorEventListen
     }
 
     private void applyThumbnails () {
-        //thumbnail = ExifUtil.rotateBitmap(realPath,
-                        //BitmapUtil.decodeSampledBitmapFromResource(realPath, 50, 50));
+        thumbnail = ExifUtil.rotateBitmap(realPath,
+                        BitmapUtil.decodeSampledBitmapFromResource(realPath, 50, 50));
         if (bitmap == null) return;
-        thumbnail = Bitmap.createScaledBitmap(bitmap, 100, 100, false);
+        //thumbnail = Bitmap.createScaledBitmap(bitmap, 25, 25, false);
         ((ImageView)((LinearLayout)(innerlayEffects.getChildAt(0))).getChildAt(0))
                 .setImageBitmap(BitmapUtil.getRoundedCornerBitmap(thumbnail, 10));
         for (int i = 1; i <= filterUtil.getMyFilterSize(); i++) {
@@ -1071,21 +1068,12 @@ public class EditActivity extends ActionBarActivity implements SensorEventListen
                     Toast.LENGTH_SHORT).show();
 
             uri = contentUri;
-            bitmap.recycle();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-    GPUImage.OnPictureSavedListener picSaveListener = new GPUImage.OnPictureSavedListener() {
-        @Override
-        public void onPictureSaved(Uri uri) {
-            Toast.makeText(getApplicationContext(), "Photo saved: " + uri.toString(),
-                    Toast.LENGTH_SHORT).show();
-        }
-    };
 
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
@@ -1149,7 +1137,6 @@ public class EditActivity extends ActionBarActivity implements SensorEventListen
         bitmap = ExifUtil.rotateBitmap(realPath,
                 BitmapUtil.decodeSampledBitmapFromResource(realPath, 256, 256));
         mImageView.setImageBitmap(bitmap);
-        //applyThumbnails();
     }
 
     private void handleImage(final String realPath) {
@@ -1177,6 +1164,12 @@ public class EditActivity extends ActionBarActivity implements SensorEventListen
         super.onResume();
         initListeners();
         initImageLoader();
+    }
+
+    @Override
+    public void onDestroy() {
+        clear();
+        super.onDestroy();
     }
 
     @Override
@@ -1557,5 +1550,14 @@ public class EditActivity extends ActionBarActivity implements SensorEventListen
                                float velocityY) {
             return super.onFling(e1, e2, velocityX, velocityY);
         }
+    }
+
+    private void clear() {
+        mImageView.setImageBitmap(null);
+        bitmap = null;
+        originBitmap = null;
+        cropImageView.setImageBitmap(null);
+        thumbnail = null;
+        gpuImage.setImage(bitmap);
     }
 }
