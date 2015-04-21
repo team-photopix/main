@@ -142,9 +142,14 @@ public class EditActivity extends ActionBarActivity implements SensorEventListen
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
+            //change this 3 lines with below 2 lines
             realPath = bundle.getString("LOCATION");
             uri = Uri.fromFile(new File(realPath));
             comeFromCamera = true;
+
+            //for implemented camera
+            //uri = bundle.getParcelable("URI");
+            //comeFromCamera = true;
         }
 
         actionBar = getSupportActionBar();
@@ -426,7 +431,10 @@ public class EditActivity extends ActionBarActivity implements SensorEventListen
             initImageLoader();
 
         if (comeFromCamera) {
+            //change this line with below one
             handleImage(realPath);
+
+            //handleImage(uri);
         }
         else {
             Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
