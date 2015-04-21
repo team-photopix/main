@@ -1,0 +1,166 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/crop"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="10dp"
+    android:gravity="center_vertical"
+    android:weightSum="3"
+    android:orientation="horizontal" >
+
+    <LinearLayout
+        android:id="@+id/crop1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_weight="0.5"
+        android:orientation="vertical" >
+
+        <ImageView
+            style="@style/myImageView"
+            android:src="@drawable/crop_custom"
+            android:id="@+id/crop1_btn"
+            android:adjustViewBounds="true"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:scaleType="fitXY"
+            android:onClick="onClick"/>
+        <TextView
+            android:text="@string/crop1"
+            android:textColor="#FFFFFF"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/crop2"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_weight="0.5"
+        android:orientation="vertical" >
+
+        <ImageView
+            style="@style/myImageView"
+            android:src="@drawable/crop_1_1"
+            android:id="@+id/crop2_btn"
+            android:adjustViewBounds="true"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:scaleType="fitXY"
+            android:layout_gravity="center"
+            android:onClick="onClick"/>
+        <TextView
+            android:text="@string/crop2"
+            android:textColor="#FFFFFF"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/crop3"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_weight="0.5"
+        android:orientation="vertical" >
+
+        <ImageView
+            style="@style/myImageView"
+            android:src="@drawable/crop_4_3"
+            android:id="@+id/crop3_btn"
+            android:adjustViewBounds="true"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:scaleType="fitXY"
+            android:onClick="onClick"/>
+        <TextView
+            android:text="@string/crop3"
+            android:textColor="#FFFFFF"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/crop4"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_weight="0.5"
+        android:orientation="vertical" >
+
+        <ImageView
+            style="@style/myImageView"
+            android:src="@drawable/crop_6_4"
+            android:id="@+id/crop4_btn"
+            android:adjustViewBounds="true"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:scaleType="fitXY"
+            android:onClick="onClick"/>
+        <TextView
+            android:text="@string/crop4"
+            android:textColor="#FFFFFF"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/crop5"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_weight="0.5"
+        android:orientation="vertical" >
+
+        <ImageView
+            style="@style/myImageView"
+            android:src="@drawable/crop_10_8"
+            android:id="@+id/crop5_btn"
+            android:adjustViewBounds="true"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:scaleType="fitXY"
+            android:onClick="onClick"/>
+        <TextView
+            android:text="@string/crop5"
+            android:textColor="#FFFFFF"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/crop6"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_weight="0.5"
+        android:orientation="vertical" >
+
+        <ImageView
+            style="@style/myImageView"
+            android:src="@drawable/crop_16_9"
+            android:id="@+id/crop6_btn"
+            android:adjustViewBounds="true"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:scaleType="fitXY"
+            android:onClick="onClick"/>
+        <TextView
+            android:text="@string/crop6"
+            android:textColor="#FFFFFF"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</LinearLayout>

@@ -1,6 +1,59 @@
 <resources>
     <string name="app_name">Photopix</string>
 
-    <string name="hello_world">This is where we start! Transferring ownership ...</string>
+    <string name="title">Photopix</string>
+    <string name="subtitle">- Inspiration -</string>
     <string name="action_settings">Settings</string>
+
+    <string name="home">Home</string>
+    <string name="undo_all">Undo All</string>
+
+    <string name="gallery">Gallery...</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+
+    <string name="camera">Camera</string>
+    <string name="edit">Edit</string>
+    <string name="collage">Collage</string>
+
+    <string name="edit1">Effects</string>
+    <string name="edit2">Adjust</string>
+    <string name="edit3">Rotate</string>
+    <string name="edit4">Crop</string>
+    <string name="edit5">Frame</string>
+
+    <string name="effect1">Original</string>
+    <string name="effect2">Sepia</string>
+    <string name="effect3">Gray</string>
+    <string name="effect4">Chrome</string>
+    <string name="effect5">Sketch</string>
+    <string name="effect6">Sharpen</string>
+    <string name="effect7">Blur</string>
+    <string name="effect8">Art</string>
+    <string name="effect9">Edge</string>
+    <string name="effect10">Poster</string>
+
+    <string name="adjust1">Brightness</string>
+    <string name="adjust2">Contrast</string>
+    <string name="adjust3">Saturation</string>
+    <string name="adjust4">Exposure</string>
+    <string name="adjust5">WB</string>
+
+    <string name="crop1">Custom</string>
+    <string name="crop2">1:1</string>
+    <string name="crop3">4:3</string>
+    <string name="crop4">6:4</string>
+    <string name="crop5">10:8</string>
+    <string name="crop6">16:9</string>
+
+    <string name="hue">H</string>
+    <string name="saturation">S</string>
+    <string name="value">V</string>
+
+    <string name="free_style">Free</string>
+    <string name="generateCollage">Generate Collages</string>
+    <string name="btn_ok">OK</string>
+    <string name="btn_pick">Pick From Gallery</string>
+    <string name="btn_pick_mul">Pick From Gallery (Multiple)</string>
+
 </resources>

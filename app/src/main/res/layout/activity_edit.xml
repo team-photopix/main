@@ -1,0 +1,241 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_image" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="1"
+        android:orientation="vertical" >
+
+        <ViewSwitcher
+            android:id="@+id/view_switcher"
+            android:layout_weight="0.08"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+            <LinearLayout
+                android:id="@+id/switch_layout1"
+                android:weightSum="1"
+                android:background="#803F4354"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <Button
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginBottom="1dp"
+                    android:gravity="center"
+                    android:id="@+id/home_btn"
+                    android:text="@string/home"
+                    android:textSize="10sp"
+                    android:background="@drawable/button_selector"
+                    android:textColor="#ffffff"
+                    android:onClick="onClick"
+                    android:layout_weight="0.25"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/home_text"
+                    android:text="@string/edit"
+                    android:textColor="#000000"
+                    android:textSize="25sp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_weight="0.5"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" />
+                <Button
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginBottom="1dp"
+                    android:background="@drawable/button_selector"
+                    android:id="@+id/undo_all_btn"
+                    android:text="@string/undo_all"
+                    android:textSize="10sp"
+                    android:textColor="#ffffff"
+                    android:onClick="onClick"
+                    android:layout_weight="0.25"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/switch_layout2"
+                android:weightSum="1"
+                android:background="#803F4354"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <Button
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginBottom="1dp"
+                    android:background="@drawable/button_selector"
+                    android:id="@+id/edit_btn"
+                    android:text="@string/edit"
+                    android:textSize="10sp"
+                    android:textColor="#ffffff"
+                    android:onClick="onClick"
+                    android:gravity="center"
+                    android:layout_weight="0.2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_weight="0.2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" />
+                <LinearLayout
+                    android:layout_weight="0.6"
+                    android:layout_width="0dp"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center"
+                    android:layout_height="match_parent">
+                    <ImageView
+                        android:onClick="onClick"
+                        style="@style/myActionBarView"
+                        android:layout_marginRight="2dp"
+                        android:focusableInTouchMode="true"
+                        android:id="@+id/view1"
+                        android:src="@drawable/effects_btn"
+                        android:layout_gravity="center"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp" />
+                    <ImageView
+                        android:onClick="onClick"
+                        style="@style/myActionBarView"
+                        android:layout_marginRight="2dp"
+                        android:focusableInTouchMode="true"
+                        android:id="@+id/view2"
+                        android:src="@drawable/adjust_btn"
+                        android:layout_gravity="center"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp" />
+                    <ImageView
+                        android:onClick="onClick"
+                        style="@style/myActionBarView"
+                        android:layout_marginRight="2dp"
+                        android:focusableInTouchMode="true"
+                        android:id="@+id/view3"
+                        android:src="@drawable/rotate_btn"
+                        android:layout_gravity="center"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp" />
+                    <ImageView
+                        android:onClick="onClick"
+                        style="@style/myActionBarView"
+                        android:layout_marginRight="2dp"
+                        android:focusableInTouchMode="true"
+                        android:id="@+id/view4"
+                        android:src="@drawable/crop_btn"
+                        android:layout_gravity="center"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp" />
+                    <ImageView
+                        android:onClick="onClick"
+                        style="@style/myActionBarView"
+                        android:layout_marginRight="2dp"
+                        android:focusableInTouchMode="true"
+                        android:id="@+id/view5"
+                        android:src="@drawable/frame_btn"
+                        android:layout_gravity="center"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp" />
+                    </LinearLayout>
+
+
+            </LinearLayout>
+
+        </ViewSwitcher>
+
+        <LinearLayout
+            android:id="@+id/image"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.7"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:orientation="vertical" >
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:id="@+id/image_view"
+                    android:layout_gravity="center"
+                    android:onClick="onClick"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <com.edmodo.cropper.CropImageView
+                    xmlns:custom="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/crop_image_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </FrameLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/decision"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.07"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:weightSum="1"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:id="@+id/cancel_save"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <Button
+                    android:background="@drawable/button_selector"
+                    android:id="@+id/cancel_btn"
+                    android:text="@string/cancel"
+                    android:textSize="10sp"
+                    android:textColor="#ffffff"
+                    android:gravity="center"
+                    android:layout_alignParentLeft="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:onClick="onClick" />
+
+                <Button
+                    android:background="@drawable/button_selector"
+                    android:id="@+id/save_btn"
+                    android:text="@string/save"
+                    android:textSize="10sp"
+                    android:textColor="#ffffff"
+                    android:gravity="center"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:onClick="onClick" />
+                </RelativeLayout>
+
+        </LinearLayout>
+
+        <ViewFlipper
+            android:id="@+id/flip"
+            android:background="#803F4354"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.15">
+
+
+            <include layout="@layout/subactivity_edit_main" />
+            <include layout="@layout/subactivity_edit_effects" />
+            <include layout="@layout/subactivity_edit_adjust" />
+            <include layout="@layout/subactivity_edit_rotate" />
+            <include layout="@layout/subactivity_edit_crop" />
+            <include layout="@layout/subactivity_edit_frame" />
+
+        </ViewFlipper>
+
+    </LinearLayout>
+</RelativeLayout>
